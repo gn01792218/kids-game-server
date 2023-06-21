@@ -1,6 +1,6 @@
 
 import { Router } from 'express'
-import { Todo } from '../modules/exampleModules'
+import { Todo, AddTodoRequestBody, UpdateTodoRequestBody, TodoUrlParams } from '../modules/exampleModules'
 const router = Router()
 
 let todos:Todo[] = []
@@ -10,9 +10,10 @@ router.get('/',(req, res)=>{
 })
 
 router.post('/todo',(req, res) => {
+    const body:AddTodoRequestBody = req.body
     const newTodo:Todo = {
-        id:crypto.randomUUID(),
-        text: req.body.text
+        id:new Date().toISOString(),
+        text: body.text
     } 
 
     todos.push(newTodo)
@@ -21,17 +22,19 @@ router.post('/todo',(req, res) => {
 })
 
 router.put('/todo/:todoId',(req, res) => {
-    const toDoId = req.params.todoId
-    const toDoIndex = todos.findIndex(todo => todo.id === toDoId)
-    if( toDoIndex ) {
+    const toDoParams:TodoUrlParams = req.params
+    const body:UpdateTodoRequestBody = req.body
+    
+    const toDoIndex = todos.findIndex(todo => todo.id === toDoParams.todoId)
+    if( toDoIndex >= 0 ) {
         todos[toDoIndex] = {
             id:todos[toDoIndex].id,
-            text:req.body.text
+            text:body.text
         }
         return res.status(200).json({message:'Update todo', todos})
     }
 
-    res.status(404).json({message:`Could not find todo for id:${toDoId}`})
+    res.status(404).json({message:`Could not find todo for id:${toDoParams.todoId}`})
 })
 
 router.delete('/todo/:todoId',(req, res) => {
