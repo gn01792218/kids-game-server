@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express")); //ts 中可以使用impor
 const body_parser_1 = __importDefault(require("body-parser"));
 const exampleRESTAPI_1 = __importDefault(require("./routes/exampleRESTAPI"));
 const app = (0, express_1.default)();
+const port = process.env.PORT || 3000;
 app.use(body_parser_1.default.json());
 app.use(exampleRESTAPI_1.default);
-app.listen(3000, () => console.log('監聽3000'));
+app.listen(port, () => console.log(`監聽${port}}`));
