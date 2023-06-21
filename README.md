@@ -2,7 +2,11 @@
 tsc => 編譯所有專案底下ts檔案
 
 # 專案運行
-node app.js
+node app.js  //本地運行
+heroku open  //開啟heroku上的專案
+
+# 專案部署
+git push heroku main
 
 # ts config檔案
 ## 設置tsc編譯檔案輸出位置
